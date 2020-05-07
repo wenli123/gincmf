@@ -3,7 +3,7 @@ package router
 import (
 	"gincmf/app/controller/web/home"
 	"gincmf/app/middleware"
-	"github.com/daifuyang/cmf"
+	"github.com/gincmf/cmf"
 )
 
 //web路由初始化

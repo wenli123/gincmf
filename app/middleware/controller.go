@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"gincmf/app/controller/web"
-	"github.com/daifuyang/cmf"
+	"github.com/gincmf/cmf"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/daifuyang/cmf"
+	"github.com/gincmf/cmf"
 	"gincmf/app/controller/api/admin"
 )
 

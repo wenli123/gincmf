@@ -2,7 +2,7 @@ package main
 
 import (
 	"gincmf/router"
-	"github.com/daifuyang/cmf"
+	"github.com/gincmf/cmf"
 )
 
 func main() {

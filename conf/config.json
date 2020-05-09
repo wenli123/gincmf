@@ -10,7 +10,8 @@
     },
     "datebase": {
         "type": "mysql",
-        "hostname": "mysql",
+        "hostname": "127.0.0.1",
+        "database": "gincmf",
         "username": "root",
         "password": "123456",
         "hostport": "3306",

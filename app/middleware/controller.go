@@ -1,14 +1,14 @@
 package middleware
 
 import (
-	"gincmf/app/controller/web"
-	"github.com/gincmf/cmf"
 	"github.com/gin-gonic/gin"
+	"github.com/gincmf/cmf"
+	"github.com/gincmf/cmf/view"
 )
 
 func BaseController(c *gin.Context) {
 	cmf.LoadTemplate()
-	web.Template.Context = c
-	web.Assign("tmpl",cmf.TemplateMap.Theme)
+	view.Template.Context = c
+	view.Assign("tmpl",cmf.TemplateMap.Theme)
 	c.Next()
 }

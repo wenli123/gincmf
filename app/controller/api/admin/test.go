@@ -5,15 +5,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type IndexControllerStruct struct {
+type TestControllerStruct struct {
 	rc controller.RestControllerStruct
 }
 
-func (i *IndexControllerStruct) Get(c *gin.Context) {
+func (i *TestControllerStruct) Get(c *gin.Context) {
 	i.rc.Success(c, "操作成功Get", nil)
 }
 
-func (i *IndexControllerStruct) Show(c *gin.Context) {
+func (i *TestControllerStruct) Show(c *gin.Context) {
 	var rewrite struct {
 		id int `uri:"id"`
 	}
@@ -24,14 +24,14 @@ func (i *IndexControllerStruct) Show(c *gin.Context) {
 	i.rc.Success(c, "操作成功show", nil)
 }
 
-func (i *IndexControllerStruct) Edit(c *gin.Context) {
+func (i *TestControllerStruct) Edit(c *gin.Context) {
 	i.rc.Success(c, "操作成功Edit", nil)
 }
 
-func (i *IndexControllerStruct) Store(c *gin.Context) {
+func (i *TestControllerStruct) Store(c *gin.Context) {
 	i.rc.Success(c, "操作成功Store", nil)
 }
 
-func (i *IndexControllerStruct) Delete(c *gin.Context) {
+func (i *TestControllerStruct) Delete(c *gin.Context) {
 	i.rc.Success(c, "操作成功Delete", nil)
 }

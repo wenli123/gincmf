@@ -3,6 +3,7 @@ package home
 import (
 	"gincmf/app/controller/web"
 	"github.com/gin-gonic/gin"
+	"github.com/gincmf/cmf/view"
 )
 
 type IndexController struct {
@@ -11,5 +12,5 @@ type IndexController struct {
 
 //首页控制器
 func (this *IndexController) Index(c *gin.Context) {
-	web.Fetch("index.html")
+	view.Fetch("index.html")
 }

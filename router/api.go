@@ -9,5 +9,5 @@ import (
 //web路由初始化
 func ApiListenRouter() {
 	cmf.Rest("/", new(admin.IndexControllerStruct))
-	cmf.Rest("/test", new(admin.IndexControllerStruct),middleware.ValidationBearerToken)
+	cmf.Rest("/test", new(admin.TestControllerStruct),middleware.ValidationBearerToken)
 }

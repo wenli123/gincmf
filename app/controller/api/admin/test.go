@@ -1,8 +1,11 @@
 package admin
 
 import (
+	"fmt"
+	"gincmf/app/middleware"
 	"github.com/gincmf/cmf/controller"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 type TestControllerStruct struct {
@@ -10,7 +13,22 @@ type TestControllerStruct struct {
 }
 
 func (i *TestControllerStruct) Get(c *gin.Context) {
-	i.rc.Success(c, "操作成功Get", nil)
+
+	token := middleware.Token
+
+	var data struct{
+		ExpiresIn int64 `json:"expires_in"`
+		ClientId string `json:"client_id"`
+		UserId string `json:"user_id"`
+	}
+
+	data.ExpiresIn = int64(token.GetAccessCreateAt().Add(token.GetAccessExpiresIn()).Sub(time.Now()).Seconds())
+	data.ClientId = token.GetClientID()
+	data.UserId = token.GetUserID()
+
+	fmt.Println("data：",data)
+
+	i.rc.Success(c, "test方法操作成功Get", data)
 }
 
 func (i *TestControllerStruct) Show(c *gin.Context) {

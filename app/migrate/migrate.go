@@ -7,10 +7,9 @@ type Migrate interface {
 }
 
 type MigrateStruct struct {
-
 }
 
-func AutoMigrate()  {
+func AutoMigrate() {
 	_, err := os.Stat("../conf/install.lock")
 	if err != nil {
 		new(Slide).AutoMigrate()

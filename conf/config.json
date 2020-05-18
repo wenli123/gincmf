@@ -8,7 +8,7 @@
         "glob":"**/**/*.html",
         "Static":"*/public/assets"
     },
-    "datebase": {
+    "database": {
         "type": "mysql",
         "hostname": "127.0.0.1",
         "database": "gincmf",
@@ -16,6 +16,7 @@
         "password": "123456",
         "hostport": "3306",
         "charset": "utf8mb4",
-        "prefix": "cmf_"
+        "prefix": "cmf_",
+        "authcode" : "KFHlk2ubIlMr5ltqaD"
     }
 }

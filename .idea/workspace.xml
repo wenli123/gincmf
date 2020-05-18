@@ -20,12 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0986e46-b1cc-48d7-a774-cb14ac7b5b1d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/model/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/api/admin/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/api/admin/index.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controller/api/admin/test.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/api/admin/test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/middleware/authapi.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/middleware/authapi.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/migrate/carousel.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/migrate/carousel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/migrate/migrate.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/migrate/migrate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/migrate/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/migrate/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/conf/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/api.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +43,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="/usr/local/go" />
+  <component name="GOROOT" path="C:\Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -60,13 +64,14 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/controller/api/admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="go.sdk" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -97,13 +102,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -113,33 +117,61 @@
       <screen x="0" y="23" width="1920" height="1003" />
     </state>
     <state x="560" y="183" key="#GOROOT/0.23.1920.1003@0.23.1920.1003" timestamp="1589529162682" />
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589599489495">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589599489495" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1589436234487">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1589436234487" />
-    <state width="1878" height="268" key="GridCell.Tab.0.bottom" timestamp="1589543464001">
-      <screen x="0" y="23" width="1920" height="1003" />
+    <state width="1877" height="284" key="GridCell.Tab.0.bottom" timestamp="1589730535742">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589464290590" />
+    <state width="1877" height="284" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589730535742" />
     <state width="1878" height="268" key="GridCell.Tab.0.bottom/0.23.1920.1003@0.23.1920.1003" timestamp="1589543464001" />
-    <state width="1878" height="268" key="GridCell.Tab.0.center" timestamp="1589543463997">
-      <screen x="0" y="23" width="1920" height="1003" />
+    <state width="1877" height="284" key="GridCell.Tab.0.center" timestamp="1589730535742">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589464290590" />
+    <state width="1877" height="284" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589730535742" />
     <state width="1878" height="268" key="GridCell.Tab.0.center/0.23.1920.1003@0.23.1920.1003" timestamp="1589543463997" />
-    <state width="1878" height="268" key="GridCell.Tab.0.left" timestamp="1589543463994">
-      <screen x="0" y="23" width="1920" height="1003" />
+    <state width="1877" height="284" key="GridCell.Tab.0.left" timestamp="1589730535742">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589464290590" />
+    <state width="1877" height="284" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589730535742" />
     <state width="1878" height="268" key="GridCell.Tab.0.left/0.23.1920.1003@0.23.1920.1003" timestamp="1589543463994" />
-    <state width="1878" height="268" key="GridCell.Tab.0.right" timestamp="1589543463999">
-      <screen x="0" y="23" width="1920" height="1003" />
+    <state width="1877" height="284" key="GridCell.Tab.0.right" timestamp="1589730535742">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589464290590" />
+    <state width="1877" height="284" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589730535742" />
     <state width="1878" height="268" key="GridCell.Tab.0.right/0.23.1920.1003@0.23.1920.1003" timestamp="1589543463999" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1589696477552">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589696477552" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1589696477552">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589696477552" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1589696477552">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589696477552" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1589696477552">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589696477552" />
+    <state x="461" y="164" key="SettingsEditor" timestamp="1589599511060">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1589599511060" />
     <state x="662" y="252" width="596" height="536" key="find.popup" timestamp="1589463789716">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="662" y="252" width="596" height="536" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589463789716" />
+    <state x="616" y="173" width="670" height="676" key="search.everywhere.popup" timestamp="1589725482403">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="173" width="670" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589725482403" />
   </component>
 </project>

@@ -18,5 +18,8 @@ func ValidationBearerToken(c *gin.Context)  {
 		controller.RestControllerStruct{}.Error(c,err.Error())
 		fmt.Println("err",err.Error())
 	}
+
+	c.Set("user_id",t.GetUserID())
+
 	c.Next()
 }

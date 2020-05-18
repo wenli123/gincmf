@@ -3,8 +3,8 @@ package admin
 import (
 	"fmt"
 	"gincmf/app/middleware"
-	"github.com/gincmf/cmf/controller"
 	"github.com/gin-gonic/gin"
+	"github.com/gincmf/cmf/controller"
 	"time"
 )
 
@@ -26,9 +26,13 @@ func (i *TestControllerStruct) Get(c *gin.Context) {
 	data.ClientId = token.GetClientID()
 	data.UserId = token.GetUserID()
 
-	fmt.Println("data：",data)
+	userId,_ := c.Get("user_id")
 
-	i.rc.Success(c, "test方法操作成功Get", data)
+	fmt.Println("data：",userId)
+
+	fmt.Println("current_user")
+
+	i.rc.Success(c, "test方法操作成功Get", userId)
 }
 
 func (i *TestControllerStruct) Show(c *gin.Context) {

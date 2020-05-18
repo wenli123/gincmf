@@ -1,8 +1,8 @@
 package admin
 
 import (
-	"github.com/gincmf/cmf/controller"
 	"github.com/gin-gonic/gin"
+	"github.com/gincmf/cmf/controller"
 )
 
 type IndexControllerStruct struct {

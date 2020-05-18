@@ -3,6 +3,7 @@ package admin
 import (
 	"fmt"
 	"gincmf/app/middleware"
+	"gincmf/app/util"
 	"github.com/gin-gonic/gin"
 	"github.com/gincmf/cmf/controller"
 	"time"
@@ -30,7 +31,7 @@ func (i *TestControllerStruct) Get(c *gin.Context) {
 
 	fmt.Println("data：",userId)
 
-	fmt.Println("current_user")
+	fmt.Println("current_user",util.CurrentUser(c))
 
 	i.rc.Success(c, "test方法操作成功Get", userId)
 }

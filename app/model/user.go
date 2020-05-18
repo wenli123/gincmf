@@ -23,4 +23,3 @@ type User struct {
 	Mobile            string `gorm:"type:varchar(20);not null"`
 	more              string `gorm:"type:text"`
 }
-

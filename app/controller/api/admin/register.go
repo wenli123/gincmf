@@ -5,15 +5,16 @@ import (
 	"github.com/gincmf/cmf/controller"
 )
 
-type IndexController struct {
+//注册账号
+type RegisterController struct {
 	rc controller.RestController
 }
 
-func (i *IndexController) Get(c *gin.Context) {
-	i.rc.Success(c, "操作成功Get", nil)
+func (i *RegisterController) Get(c *gin.Context) {
+	i.rc.Success(c, "test方法操作成功Get", nil)
 }
 
-func (i *IndexController) Show(c *gin.Context) {
+func (i *RegisterController) Show(c *gin.Context) {
 	var rewrite struct {
 		id int `uri:"id"`
 	}
@@ -24,14 +25,14 @@ func (i *IndexController) Show(c *gin.Context) {
 	i.rc.Success(c, "操作成功show", nil)
 }
 
-func (i *IndexController) Edit(c *gin.Context) {
+func (i *RegisterController) Edit(c *gin.Context) {
 	i.rc.Success(c, "操作成功Edit", nil)
 }
 
-func (i *IndexController) Store(c *gin.Context) {
+func (i *RegisterController) Store(c *gin.Context) {
 	i.rc.Success(c, "操作成功Store", nil)
 }
 
-func (i *IndexController) Delete(c *gin.Context) {
+func (i *RegisterController) Delete(c *gin.Context) {
 	i.rc.Success(c, "操作成功Delete", nil)
 }

@@ -9,11 +9,11 @@ import (
 	"time"
 )
 
-type TestControllerStruct struct {
-	rc controller.RestControllerStruct
+type TestController struct {
+	rc controller.RestController
 }
 
-func (i *TestControllerStruct) Get(c *gin.Context) {
+func (i *TestController) Get(c *gin.Context) {
 
 	token := middleware.Token
 
@@ -36,7 +36,7 @@ func (i *TestControllerStruct) Get(c *gin.Context) {
 	i.rc.Success(c, "test方法操作成功Get", userId)
 }
 
-func (i *TestControllerStruct) Show(c *gin.Context) {
+func (i *TestController) Show(c *gin.Context) {
 	var rewrite struct {
 		id int `uri:"id"`
 	}
@@ -47,14 +47,14 @@ func (i *TestControllerStruct) Show(c *gin.Context) {
 	i.rc.Success(c, "操作成功show", nil)
 }
 
-func (i *TestControllerStruct) Edit(c *gin.Context) {
+func (i *TestController) Edit(c *gin.Context) {
 	i.rc.Success(c, "操作成功Edit", nil)
 }
 
-func (i *TestControllerStruct) Store(c *gin.Context) {
+func (i *TestController) Store(c *gin.Context) {
 	i.rc.Success(c, "操作成功Store", nil)
 }
 
-func (i *TestControllerStruct) Delete(c *gin.Context) {
+func (i *TestController) Delete(c *gin.Context) {
 	i.rc.Success(c, "操作成功Delete", nil)
 }

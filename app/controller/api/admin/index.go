@@ -9,11 +9,11 @@ type IndexController struct {
 	rc controller.RestController
 }
 
-func (i *IndexController) Get(c *gin.Context) {
-	i.rc.Success(c, "操作成功Get", nil)
+func (s *IndexController) Get(c *gin.Context) {
+	s.rc.Success(c, "操作成功Get", nil)
 }
 
-func (i *IndexController) Show(c *gin.Context) {
+func (s *IndexController) Show(c *gin.Context) {
 	var rewrite struct {
 		id int `uri:"id"`
 	}
@@ -21,17 +21,17 @@ func (i *IndexController) Show(c *gin.Context) {
 		c.JSON(400, gin.H{"msg": err})
 		return
 	}
-	i.rc.Success(c, "操作成功show", nil)
+	s.rc.Success(c, "操作成功show", nil)
 }
 
-func (i *IndexController) Edit(c *gin.Context) {
-	i.rc.Success(c, "操作成功Edit", nil)
+func (s *IndexController) Edit(c *gin.Context) {
+	s.rc.Success(c, "操作成功Edit", nil)
 }
 
-func (i *IndexController) Store(c *gin.Context) {
-	i.rc.Success(c, "操作成功Store", nil)
+func (s *IndexController) Store(c *gin.Context) {
+	s.rc.Success(c, "操作成功Store", nil)
 }
 
-func (i *IndexController) Delete(c *gin.Context) {
-	i.rc.Success(c, "操作成功Delete", nil)
+func (s *IndexController) Delete(c *gin.Context) {
+	s.rc.Success(c, "操作成功Delete", nil)
 }

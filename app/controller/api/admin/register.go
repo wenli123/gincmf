@@ -10,11 +10,11 @@ type RegisterController struct {
 	rc controller.RestController
 }
 
-func (i *RegisterController) Get(c *gin.Context) {
-	i.rc.Success(c, "test方法操作成功Get", nil)
+func (s *RegisterController) Get(c *gin.Context) {
+	s.rc.Success(c, "test方法操作成功Get", nil)
 }
 
-func (i *RegisterController) Show(c *gin.Context) {
+func (s *RegisterController) Show(c *gin.Context) {
 	var rewrite struct {
 		id int `uri:"id"`
 	}
@@ -22,17 +22,17 @@ func (i *RegisterController) Show(c *gin.Context) {
 		c.JSON(400, gin.H{"msg": err})
 		return
 	}
-	i.rc.Success(c, "操作成功show", nil)
+	s.rc.Success(c, "操作成功show", nil)
 }
 
-func (i *RegisterController) Edit(c *gin.Context) {
-	i.rc.Success(c, "操作成功Edit", nil)
+func (s *RegisterController) Edit(c *gin.Context) {
+	s.rc.Success(c, "操作成功Edit", nil)
 }
 
-func (i *RegisterController) Store(c *gin.Context) {
-	i.rc.Success(c, "操作成功Store", nil)
+func (s *RegisterController) Store(c *gin.Context) {
+	s.rc.Success(c, "操作成功Store", nil)
 }
 
-func (i *RegisterController) Delete(c *gin.Context) {
-	i.rc.Success(c, "操作成功Delete", nil)
+func (s *RegisterController) Delete(c *gin.Context) {
+	s.rc.Success(c, "操作成功Delete", nil)
 }

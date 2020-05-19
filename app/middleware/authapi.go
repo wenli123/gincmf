@@ -19,6 +19,7 @@ func ValidationBearerToken(c *gin.Context) {
 	if err != nil {
 		controller.RestController{}.Error(c, err.Error())
 		fmt.Println("err", err.Error())
+		c.Abort()
 		return
 	}
 	c.Set("user_id", t.GetUserID())
@@ -31,6 +32,7 @@ func ValidationAdmin(c *gin.Context) {
 	userType := currentUser.UserType
 	if userType != 1 {
 		controller.RestController{}.Error(c, "您不是管理员，无权访问！")
+		c.Abort()
 		return
 	}
 	fmt.Println("user：",userType)

@@ -9,6 +9,7 @@ import (
 //web路由初始化
 func ApiListenRouter() {
 	cmf.Rest("/", new(admin.IndexController))
-	cmf.Rest("/assets", new(admin.AssetsController),middleware.ValidationBearerToken,middleware.ValidationAdmin)
+	cmf.Rest("/settings", new(admin.SettingsController))
+	cmf.Rest("/assets", new(admin.AssetController),middleware.ValidationBearerToken,middleware.ValidationAdmin)
 	cmf.Rest("/carousel", new(admin.SlideController),middleware.ValidationBearerToken,middleware.ValidationAdmin)
 }

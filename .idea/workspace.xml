@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6e75a956-53d3-4ee9-a085-33a4e3c40247" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/controller/api/admin/assets.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/controller/api/admin/settings.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/migrate/asset.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/migrate/option.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/model/Option.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/api/admin/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/api/admin/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/api/admin/register.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/api/admin/register.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/api/admin/slide.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/api/admin/slide.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controller/api/admin/test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/api/admin/assets.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/api/admin/assets.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/middleware/authapi.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/middleware/authapi.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/migrate/migrate.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/migrate/migrate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/util/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/util.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/api.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/web.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/web.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +46,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="/usr/local/go" />
+  <component name="GOROOT" path="C:\Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -38,13 +61,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../cmf" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -59,12 +83,31 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="gincmf" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build gincmf" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="gincmf" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
       <filePath value="$PROJECT_DIR$/main.go" />
       <package value="gincmf" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="gincmf" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -76,6 +119,18 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
     <environment>
@@ -86,25 +141,41 @@
     <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
+    <state x="752" y="450" key="#GOROOT" timestamp="1590137508827">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="752" y="450" key="#GOROOT/0.0.1920.1040@0.0.1920.1040" timestamp="1590137508827" />
     <state x="560" y="183" key="#Inspections" timestamp="1589798838736">
       <screen x="0" y="23" width="1920" height="1003" />
     </state>
     <state x="560" y="183" key="#Inspections/0.23.1920.1003@0.23.1920.1003" timestamp="1589798838736" />
-    <state width="1878" height="268" key="GridCell.Tab.0.bottom" timestamp="1589884568969">
-      <screen x="0" y="23" width="1920" height="1003" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1590396834840">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1590396834840" />
+    <state width="1860" height="282" key="GridCell.Tab.0.bottom" timestamp="1590413296025">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1860" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590239029292" />
+    <state width="1860" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590413296025" />
     <state width="1878" height="268" key="GridCell.Tab.0.bottom/0.23.1920.1003@0.23.1920.1003" timestamp="1589884568969" />
-    <state width="1878" height="268" key="GridCell.Tab.0.center" timestamp="1589884568968">
-      <screen x="0" y="23" width="1920" height="1003" />
+    <state width="1860" height="282" key="GridCell.Tab.0.center" timestamp="1590413296025">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1860" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590239029292" />
+    <state width="1860" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590413296025" />
     <state width="1878" height="268" key="GridCell.Tab.0.center/0.23.1920.1003@0.23.1920.1003" timestamp="1589884568968" />
-    <state width="1878" height="268" key="GridCell.Tab.0.left" timestamp="1589884568967">
-      <screen x="0" y="23" width="1920" height="1003" />
+    <state width="1860" height="282" key="GridCell.Tab.0.left" timestamp="1590413296025">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1860" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590239029292" />
+    <state width="1860" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590413296025" />
     <state width="1878" height="268" key="GridCell.Tab.0.left/0.23.1920.1003@0.23.1920.1003" timestamp="1589884568967" />
-    <state width="1878" height="268" key="GridCell.Tab.0.right" timestamp="1589884568968">
-      <screen x="0" y="23" width="1920" height="1003" />
+    <state width="1860" height="282" key="GridCell.Tab.0.right" timestamp="1590413296025">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1860" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590239029292" />
+    <state width="1860" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590413296025" />
     <state width="1878" height="268" key="GridCell.Tab.0.right/0.23.1920.1003@0.23.1920.1003" timestamp="1589884568968" />
     <state x="469" y="157" key="SettingsEditor" timestamp="1589858249719">
       <screen x="0" y="23" width="1920" height="1003" />

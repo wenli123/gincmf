@@ -23,6 +23,7 @@ func ValidationBearerToken(c *gin.Context) {
 		return
 	}
 	c.Set("user_id", t.GetUserID())
+	fmt.Println("user_id",t.GetUserID())
 	c.Next()
 }
 

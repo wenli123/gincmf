@@ -1,10 +1,10 @@
 package model
 
 type Option struct {
-	Id            int
-	Autoload        int    `gorm:"type:tinyint(3);default:1;not null"`
-	OptionName	string `gorm:"type:varchar(64);not null"`
-	OptionValue string `gorm:"type:text"`
+	Id          int    `json:"id"`
+	Autoload    int    `json:"autoload";gorm:"type:tinyint(3);default:1;not null"`
+	OptionName  string `json:"option_name";gorm:"type:varchar(64);not null"`
+	OptionValue string `json:"option_value";gorm:"type:text"`
 }
 
 //定义site_info类型

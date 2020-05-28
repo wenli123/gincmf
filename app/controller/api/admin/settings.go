@@ -14,7 +14,16 @@ type SettingsController struct {
 }
 
 func (rest *SettingsController) Get(c *gin.Context) {
-	rest.rc.Success(c, "操作成功Get", nil)
+
+	option := &model.Option{}
+	siteResult := cmf.Db.First(option, "option_name = ?", "site_info") // 查询
+	if !siteResult.RecordNotFound() {
+		rest.rc.Success(c, "获取成功", option)
+	}else{
+		rest.rc.Success(c, "获取失败","")
+	}
+
+
 }
 
 func (rest *SettingsController) Show(c *gin.Context) {

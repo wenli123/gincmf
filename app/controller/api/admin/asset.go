@@ -35,7 +35,7 @@ func (rest *AssetController) Store(c *gin.Context) {
 
 	file, err := c.FormFile("file")
 	if err != nil {
-		rest.rc.Error(c,"图片不能为空！")
+		rest.rc.Error(c, "图片不能为空！","")
 		return
 	}
 
@@ -44,7 +44,7 @@ func (rest *AssetController) Store(c *gin.Context) {
 	log.Println(file.Filename)
 	// 上传文件至指定目录
 
-	c.SaveUploadedFile(file,"public/uploads/" + file.Filename )
+	c.SaveUploadedFile(file, "public/uploads/"+file.Filename)
 
 	rest.rc.Success(c, "上传成功", file.Filename)
 }

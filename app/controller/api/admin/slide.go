@@ -25,7 +25,7 @@ func (rest *SlideController) Get(c *gin.Context) {
 	slides := []model.Slide{}
 	notFount := cmf.Db.Where("delete_at = ?", "0").Find(&slides).RecordNotFound()
 	if notFount {
-		rest.rc.Error(c,"该内容不存在！")
+		rest.rc.Error(c,"该内容不存在！",nil)
 	}
 	rest.rc.Success(c, "获取轮播图成功！", slides)
 }
@@ -41,7 +41,7 @@ func (rest *SlideController) Show(c *gin.Context) {
 	slide := model.Slide{}
 	notFount := cmf.Db.Where("delete_at = ?", "0").First(&slide,rewrite.Id).RecordNotFound()
 	if notFount {
-		rest.rc.Error(c,"该内容不存在！")
+		rest.rc.Error(c,"该内容不存在！",nil)
 		return
 	}
 	rest.rc.Success(c, "获取轮播图成功！", slide)
@@ -51,7 +51,7 @@ func (rest *SlideController) Show(c *gin.Context) {
 func (rest *SlideController) Store(c *gin.Context) {
 	name := c.PostForm("name")
 	if name == "" {
-		rest.rc.Error(c,"幻灯片名称不能为空！")
+		rest.rc.Error(c,"幻灯片名称不能为空！",nil)
 		return
 	}
 	remark := c.PostForm("remark")
@@ -64,7 +64,7 @@ func (rest *SlideController) Store(c *gin.Context) {
 
 	notFount := cmf.Db.Where("delete_at = ?", "0").First(&slide).RecordNotFound()
 	if notFount {
-		rest.rc.Error(c,"该内容不存在！")
+		rest.rc.Error(c,"该内容不存在！",nil)
 		return
 	}
 
@@ -96,7 +96,7 @@ func (rest *SlideController) Edit(c *gin.Context) {
 
 	name := c.PostForm("name")
 	if name == "" {
-		rest.rc.Error(c,"幻灯片名称不能为空！")
+		rest.rc.Error(c,"幻灯片名称不能为空！",nil)
 		return
 	}
 
@@ -137,7 +137,7 @@ func (rest *SlideController) Delete(c *gin.Context) {
 
 	notFount := cmf.Db.First(&slide,rewrite.Id).RecordNotFound()
 	if notFount {
-		rest.rc.Error(c,"该内容不存在！")
+		rest.rc.Error(c,"该内容不存在！",nil)
 		return
 	}
 

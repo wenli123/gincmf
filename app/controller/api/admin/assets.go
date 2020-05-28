@@ -35,7 +35,7 @@ func (rest *AssetController) Store(c *gin.Context) {
 
 	file, err := c.FormFile("file")
 	if err != nil {
-		rest.rc.Error(c,"图片不能为空！")
+		rest.rc.Error(c,"图片不能为空！",nil)
 		return
 	}
 

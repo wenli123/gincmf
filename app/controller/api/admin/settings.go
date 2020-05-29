@@ -2,6 +2,7 @@ package admin
 
 import (
 	"encoding/json"
+	"fmt"
 	"gincmf/app/model"
 	"github.com/gin-gonic/gin"
 	"github.com/gincmf/cmf"
@@ -14,16 +15,13 @@ type SettingsController struct {
 }
 
 func (rest *SettingsController) Get(c *gin.Context) {
-
 	option := &model.Option{}
 	siteResult := cmf.Db.First(option, "option_name = ?", "site_info") // 查询
 	if !siteResult.RecordNotFound() {
 		rest.rc.Success(c, "获取成功", option)
-	}else{
-		rest.rc.Success(c, "获取失败","")
+	} else {
+		rest.rc.Error(c, "获取失败", nil)
 	}
-
-
 }
 
 func (rest *SettingsController) Show(c *gin.Context) {
@@ -43,15 +41,26 @@ func (rest *SettingsController) Edit(c *gin.Context) {
 
 func (rest *SettingsController) Store(c *gin.Context) {
 
-	option := &model.Option{}
-	siteResult := cmf.Db.First(option, "option_name = ?", "site_info") // 查询
-	if !siteResult.RecordNotFound() {
-		siteInfoStr := option.OptionValue
-		json.Unmarshal([]byte(siteInfoStr), &model.SiteInfo{})
-		siteInfoValue, _ := json.Marshal(&model.SiteInfo{})
-		cmf.Db.Model(option).Where("id = ?", option.Id).Update("option_value", string(siteInfoValue))
+	siteInfo := &model.SiteInfo{
+		SiteName:           c.PostForm("site_name"),
+		AdminPassword:      c.PostForm("admin_password"),
+		SiteSeoTitle:       c.PostForm("site_seo_title"),
+		SiteSeoKeywords:    c.PostForm("site_seo_keywords"),
+		SiteSeoDescription: c.PostForm("site_seo_description"),
+		SiteIcp:            c.PostForm("site_icp"),
+		SiteGwa:            c.PostForm("site_gwa"),
+		SiteAdminEmail:     c.PostForm("site_admin_email"),
+		SiteAnalytics:      c.PostForm("site_analytics"),
+		OpenRegistration:   c.PostForm("open_registration"),
 	}
-	rest.rc.Success(c, "修改成功", &model.SiteInfo{})
+
+	siteInfoValue, _ := json.Marshal(siteInfo)
+
+	fmt.Println("siteInfoValue",string(siteInfoValue))
+
+	cmf.Db.Model(&model.Option{}).Where("option_name = ?","site_info").Update("option_value", string(siteInfoValue))
+
+	rest.rc.Success(c, "修改成功",siteInfo)
 }
 
 func (rest *SettingsController) Delete(c *gin.Context) {

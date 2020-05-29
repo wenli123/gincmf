@@ -11,5 +11,5 @@ func ApiListenRouter() {
 	cmf.Rest("/", new(admin.IndexController))
 	cmf.Rest("/settings", new(admin.SettingsController))
 	cmf.Rest("/assets", new(admin.AssetController),middleware.ValidationBearerToken,middleware.ValidationAdmin)
-	cmf.Rest("/carousel", new(admin.SlideController),middleware.ValidationBearerToken,middleware.ValidationAdmin)
+	cmf.Rest("/slide", new(admin.SlideController))
 }

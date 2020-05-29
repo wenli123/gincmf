@@ -22,12 +22,41 @@ type SlideController struct {
 }
 
 func (rest *SlideController) Get(c *gin.Context) {
-	slides := []model.Slide{}
-	notFount := cmf.Db.Where("delete_at = ?", "0").Find(&slides).RecordNotFound()
+	var slides []model.Slide
+
+	query := "delete_at = ?"
+	queryArgs := []interface{}{"0"}
+	name := c.Query("name")
+
+	if name != "" {
+		query += " AND name like ?"
+		queryArgs = append(queryArgs,"%"+name+"%")
+	}
+
+	current := c.DefaultQuery("current","1")
+	pageSize := c.DefaultQuery("pageSize","10")
+
+	intCurrent ,_ := strconv.Atoi(current)
+	intPageSize,_ := strconv.Atoi(pageSize)
+
+	if intCurrent <= 0 {
+		rest.rc.Error(c,"当前页码需大于0！",nil)
+	}
+
+	if intPageSize <= 0 {
+		rest.rc.Error(c,"每页数需大于0！",nil)
+	}
+
+	total := 0
+	cmf.Db.Limit(pageSize).Where(query, queryArgs...).Find(&slides).Count(&total)
+	notFount := cmf.Db.Where(query, queryArgs...).Limit(intPageSize).Offset((intCurrent - 1) * intPageSize).Find(&slides).RecordNotFound()
+
 	if notFount {
 		rest.rc.Error(c,"该内容不存在！",nil)
 	}
-	rest.rc.Success(c, "获取轮播图成功！", slides)
+
+	paginationData := &model.Paginate{Data: &slides, Current: current, PageSize: pageSize, Total: total}
+	rest.rc.Success(c, "获取轮播图成功！", paginationData)
 }
 
 func (rest *SlideController) Show(c *gin.Context) {
@@ -57,17 +86,13 @@ func (rest *SlideController) Store(c *gin.Context) {
 	remark := c.PostForm("remark")
 	status := c.DefaultPostForm("status","1")
 
-	s, _ := strconv.Atoi(status)
+	slide := &model.Slide{Name: name,Remark: remark,Status: status}
 
-	slide := &model.Slide{Name: name,Remark: remark,Status: s}
-	fmt.Println("slide：",slide)
-
-	notFount := cmf.Db.Where("delete_at = ?", "0").First(&slide).RecordNotFound()
-	if notFount {
-		rest.rc.Error(c,"该内容不存在！",nil)
+	notFount := cmf.Db.Where("name = ? AND delete_at = ?",name,"0").First(&slide).RecordNotFound()
+	if !notFount {
+		rest.rc.Error(c,"该内容已存在！",nil)
 		return
 	}
-
 	cmf.Db.Create(slide)
 	result := cmf.Db.NewRecord(slide)
 
@@ -103,14 +128,10 @@ func (rest *SlideController) Edit(c *gin.Context) {
 	remark := c.PostForm("remark")
 	status := c.DefaultPostForm("status","1")
 
-	s, _ := strconv.Atoi(status)
-
-	fmt.Println("slide：",slide)
-
 	slide.Id = rewrite.Id
 	slide.Name = name
 	slide.Remark = remark
-	slide.Status = s
+	slide.Status = status
 
 	if err := cmf.Db.Save(slide).Error; err != nil {
 		rest.rc.Error(c, "修改轮播图失败！", nil)

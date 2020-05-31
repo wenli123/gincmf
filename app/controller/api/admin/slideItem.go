@@ -1,6 +1,6 @@
 /**
-* @Title  轮播图资源控制器
-* @Description  轮播图增删改查接口
+* @Title  轮播图子项资源控制器
+* @Description  轮播图子项增删改查接口
 * @Author  Return  20200519 10：46
 * @Update
 **/
@@ -17,20 +17,26 @@ import (
 )
 
 // CarouselController 轮播图资源控制器，定义了轮播图增删改查接口
-type SlideController struct {
+type SlideItemController struct {
 	rc controller.RestController
 }
 
-func (rest *SlideController) Get(c *gin.Context) {
-	var slides []model.Slide
+func (rest *SlideItemController) Get(c *gin.Context) {
+	var slideItem []model.SlideItem
 
-	query := "delete_at = ?"
-	queryArgs := []interface{}{"0"}
+	query := "status = ?"
+	queryArgs := []interface{}{"1`"}
 	name := c.Query("name")
+	desc := c.Query("description")
 
 	if name != "" {
 		query += " AND name like ?"
 		queryArgs = append(queryArgs,"%"+name+"%")
+	}
+
+	if desc != "" {
+		query += " AND description like ?"
+		queryArgs = append(queryArgs,"%"+desc+"%")
 	}
 
 	current := c.DefaultQuery("current","1")
@@ -48,18 +54,18 @@ func (rest *SlideController) Get(c *gin.Context) {
 	}
 
 	total := 0
-	cmf.Db.Limit(pageSize).Where(query, queryArgs...).Find(&slides).Count(&total)
-	notFount := cmf.Db.Where(query, queryArgs...).Limit(intPageSize).Offset((intCurrent - 1) * intPageSize).Find(&slides).RecordNotFound()
+	cmf.Db.Limit(pageSize).Where(query, queryArgs...).Find(&slideItem).Count(&total)
+	notFount := cmf.Db.Where(query, queryArgs...).Limit(intPageSize).Offset((intCurrent - 1) * intPageSize).Find(&slideItem).RecordNotFound()
 
 	if notFount {
 		rest.rc.Error(c,"该内容不存在！",nil)
 	}
 
-	paginationData := &model.Paginate{Data: &slides, Current: current, PageSize: pageSize, Total: total}
-	rest.rc.Success(c, "轮播图列表获取成功！", paginationData)
+	paginationData := &model.Paginate{Data: &slideItem, Current: current, PageSize: pageSize, Total: total}
+	rest.rc.Success(c, "轮播图获取成功！", paginationData)
 }
 
-func (rest *SlideController) Show(c *gin.Context) {
+func (rest *SlideItemController) Show(c *gin.Context) {
 	var rewrite struct {
 		Id int `uri:"id"`
 	}
@@ -77,7 +83,7 @@ func (rest *SlideController) Show(c *gin.Context) {
 }
 
 //Store	新增顶级轮播提
-func (rest *SlideController) Store(c *gin.Context) {
+func (rest *SlideItemController) Store(c *gin.Context) {
 	name := c.PostForm("name")
 	if name == "" {
 		rest.rc.Error(c,"幻灯片名称不能为空！",nil)
@@ -107,7 +113,7 @@ func (rest *SlideController) Store(c *gin.Context) {
 	rest.rc.Success(c, "添加轮播图成功！", nil)
 }
 
-func (rest *SlideController) Edit(c *gin.Context) {
+func (rest *SlideItemController) Edit(c *gin.Context) {
 	var rewrite struct {
 		Id int `uri:"id"`
 	}
@@ -143,7 +149,7 @@ func (rest *SlideController) Edit(c *gin.Context) {
 
 
 
-func (rest *SlideController) Delete(c *gin.Context) {
+func (rest *SlideItemController) Delete(c *gin.Context) {
 
 	var rewrite struct {
 		Id int `uri:"id"`

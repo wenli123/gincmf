@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"gincmf/app/model"
-	"github.com/gincmf/cmf"
+	cmf "github.com/gincmf/cmf/bootstrap"
 )
 
 type Option struct {
 	MigrateStruct `gorm:"-"`
 	Id            int
-	Autoload        int    `gorm:"type:tinyint(3);default:1;not null"`
-	OptionName	string `gorm:"type:varchar(64);not null"`
-	OptionValue string `gorm:"type:text"`
+	AutoLoad      int    `gorm:"type:tinyint(3);default:1;not null"`
+	OptionName    string `gorm:"type:varchar(64);not null"`
+	OptionValue   string `gorm:"type:text"`
 }
 
 func (m *Option) AutoMigrate() {
@@ -20,21 +20,18 @@ func (m *Option) AutoMigrate() {
 	cmf.Db.AutoMigrate(&Option{})
 	siteResult := cmf.Db.First(&Option{}, "option_name = ?", "site_info") // 查询
 	if siteResult.RecordNotFound() {
-		cmf.Db.Create(&Option{Autoload: 1,OptionName: "site_info"})
-
-		option := &model.Option{}
-		siteResult := cmf.Db.First(option, "option_name = ?", "site_info") // 查询
-		if !siteResult.RecordNotFound() {
-			siteInfoStr := option.OptionValue
-			json.Unmarshal([]byte(siteInfoStr), &model.SiteInfo{})
-			siteInfoValue, _ := json.Marshal(&model.SiteInfo{})
-			cmf.Db.Model(option).Where("id = ?", option.Id).Update("option_value", string(siteInfoValue))
-		}
-
+		//初始化默认json
+		siteInfo := &model.SiteInfo{}
+		siteInfoValue, _ := json.Marshal(siteInfo)
+		cmf.Db.Create(&Option{AutoLoad: 1, OptionName: "site_info", OptionValue: string(siteInfoValue)})
 	}
 
-	uploadResult := cmf.Db.First(&Option{}, "option_name = ?", "upload_settings") // 查询
+	uploadResult := cmf.Db.First(&Option{}, "option_name = ?", "upload_setting") // 查询
 	if uploadResult.RecordNotFound() {
-		cmf.Db.Create(&Option{Autoload: 1,OptionName: "upload_settings"})
+		//初始化默认json
+		uploadSetting := &model.UploadSetting{}
+		uploadSettingValue, _ := json.Marshal(uploadSetting)
+		fmt.Println("uploadSettingValue",string(uploadSettingValue))
+		cmf.Db.Create(&Option{AutoLoad: 1, OptionName: "upload_setting", OptionValue: string(uploadSettingValue)})
 	}
 }

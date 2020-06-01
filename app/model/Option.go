@@ -2,7 +2,7 @@ package model
 
 type Option struct {
 	Id          int    `json:"id"`
-	Autoload    int    `json:"autoload";gorm:"type:tinyint(3);default:1;not null"`
+	AutoLoad    int    `json:"autoload";gorm:"type:tinyint(3);default:1;not null"`
 	OptionName  string `json:"option_name";gorm:"type:varchar(64);not null"`
 	OptionValue string `json:"option_value";gorm:"type:text"`
 }
@@ -19,4 +19,23 @@ type SiteInfo struct {
 	SiteAdminEmail     string `json:"site_admin_email"`
 	SiteAnalytics      string `json:"site_analytics"`
 	OpenRegistration   string `json:"open_registration"`
+}
+
+//定义upload_setting类型
+type UploadSetting struct {
+	MaxFiles  string `json:"max_files"`
+	ChunkSize string `json:"chunk_size"`
+	FileTypes `json:"file_types"`
+}
+
+type FileTypes struct {
+	Image TypeValues `json:"image"`
+	video TypeValues `json:"video"`
+	Audio TypeValues `json:"audio"`
+	File  TypeValues `json:"file"`
+}
+
+type TypeValues struct {
+	UploadMaxFileSize string `json:"upload_max_file_size"`
+	Extensions        string `json:"extensions"`
 }

@@ -1,10 +1,12 @@
 package util
 
 import (
+	"encoding/json"
+	"fmt"
 	"gincmf/app/model"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/gincmf/cmf"
+	cmf "github.com/gincmf/cmf/bootstrap"
 )
 
 //获取当前登录管理员id
@@ -25,7 +27,37 @@ func CurrentUser(c *gin.Context) model.User {
 		if !result {
 			session.Set("current_user",*u)
 		}
+		currentUser = u
 	}
-	user := session.Get("current_user")
-	return user.(model.User)
+	return currentUser.(model.User)
+}
+
+//获取网站上传配置信息
+func UploadSetting(c *gin.Context) model.UploadSetting{
+	session := sessions.Default(c)
+	uploadSettingStr := session.Get("uploadSetting")
+
+	fmt.Println("uploadSetting Session",uploadSettingStr)
+
+	option := &model.Option{}
+
+	uploadSetting := model.UploadSetting{}
+
+
+	if uploadSettingStr == nil {
+		uploadResult := cmf.Db.First(option, "option_name = ?", "upload_setting") // 查询
+		if !uploadResult.RecordNotFound() {
+			uploadSettingStr = option.OptionValue
+
+			fmt.Println("uploadSetting",uploadSettingStr)
+			fmt.Printf(`%T`, uploadSettingStr)
+			//存入session
+			session.Set(uploadSetting,uploadSettingStr)
+		}
+	}
+
+	//读取的数据为json格式，需要进行解码
+	json.Unmarshal([]byte(uploadSettingStr.(string)), uploadSetting)
+
+	return uploadSetting
 }

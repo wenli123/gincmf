@@ -2,7 +2,7 @@ package router
 
 import (
 	"gincmf/app/controller/api/admin"
-	"github.com/gincmf/cmf"
+	cmf "github.com/gincmf/cmf/bootstrap"
 )
 
 //web路由初始化

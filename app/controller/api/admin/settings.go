@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"gincmf/app/model"
 	"github.com/gin-gonic/gin"
-	"github.com/gincmf/cmf"
+	cmf "github.com/gincmf/cmf/bootstrap"
 	"github.com/gincmf/cmf/controller"
 )
 

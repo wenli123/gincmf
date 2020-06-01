@@ -2,7 +2,7 @@ package migrate
 
 import (
 	"fmt"
-	"github.com/gincmf/cmf"
+	cmf "github.com/gincmf/cmf/bootstrap"
 )
 
 type Slide struct {

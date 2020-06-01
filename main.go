@@ -3,7 +3,7 @@ package main
 import (
 	"gincmf/app/migrate"
 	"gincmf/router"
-	"github.com/gincmf/cmf"
+	cmf "github.com/gincmf/cmf/bootstrap"
 )
 
 func main() {

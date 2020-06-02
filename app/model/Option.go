@@ -23,19 +23,19 @@ type SiteInfo struct {
 
 //定义upload_setting类型
 type UploadSetting struct {
-	MaxFiles  string `json:"max_files"`
-	ChunkSize string `json:"chunk_size"`
+	MaxFiles  int `json:"max_files"`
+	ChunkSize int `json:"chunk_size"`
 	FileTypes `json:"file_types"`
 }
 
 type FileTypes struct {
 	Image TypeValues `json:"image"`
-	video TypeValues `json:"video"`
+	Video TypeValues `json:"video"`
 	Audio TypeValues `json:"audio"`
 	File  TypeValues `json:"file"`
 }
 
 type TypeValues struct {
-	UploadMaxFileSize string `json:"upload_max_file_size"`
+	UploadMaxFileSize int `json:"upload_max_file_size"`
 	Extensions        string `json:"extensions"`
 }

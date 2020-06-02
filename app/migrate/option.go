@@ -29,9 +29,30 @@ func (m *Option) AutoMigrate() {
 	uploadResult := cmf.Db.First(&Option{}, "option_name = ?", "upload_setting") // 查询
 	if uploadResult.RecordNotFound() {
 		//初始化默认json
-		uploadSetting := &model.UploadSetting{}
+		uploadSetting := &model.UploadSetting{
+			MaxFiles:  20,
+			ChunkSize: 512,
+			FileTypes: model.FileTypes{
+				Image: model.TypeValues{
+					UploadMaxFileSize: 10240,
+					Extensions:        "jpg,jpeg,png,gif,bmp4,svg",
+				},
+				Video: model.TypeValues{
+					UploadMaxFileSize: 102400,
+					Extensions:        "mp4,avi,wmv,rm,rmvb,mkv",
+				},
+				Audio: model.TypeValues{
+					UploadMaxFileSize: 10240,
+					Extensions:        "mp3,wma,wav",
+				},
+				File: model.TypeValues{
+					UploadMaxFileSize: 10240,
+					Extensions:        "txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar",
+				},
+			},
+		}
 		uploadSettingValue, _ := json.Marshal(uploadSetting)
-		fmt.Println("uploadSettingValue",string(uploadSettingValue))
+		fmt.Println("uploadSettingValue", string(uploadSettingValue))
 		cmf.Db.Create(&Option{AutoLoad: 1, OptionName: "upload_setting", OptionValue: string(uploadSettingValue)})
 	}
 }

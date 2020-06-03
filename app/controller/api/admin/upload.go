@@ -34,22 +34,15 @@ func (rest *UploadController) Edit(c *gin.Context) {
 
 func (rest *UploadController) Store(c *gin.Context) {
 
-	c.Request.ParseForm()
-	formData := c.Request.PostForm
-	fmt.Println("formData",formData)
+	maxFiles := c.PostForm("max_files")
+	chunkSize := c.PostForm("chunk_size")
+	ImageMaxFileSize := c.PostForm("file_types[image][upload_max_file_size]")
+	ImageExtensions := c.PostForm("file_types[image][extensions]")
 
-	chunkSiseMap , ok := formData["chunk_size"]
-	chunkSise := ""
-	if ok {
-		chunkSise = chunkSiseMap[0]
-	}
-
-	if ok {
-		chunkSise = chunkSiseMap[0]
-	}
-
-	fmt.Println("chunkSise",chunkSise)
-
+	fmt.Println("maxFiles",maxFiles)
+	fmt.Println("chunkSize",chunkSize)
+	fmt.Println("ImageMaxFileSize",ImageMaxFileSize)
+	fmt.Println("ImageExtensions",ImageExtensions)
 
 	rest.rc.Success(c, "修改成功", nil)
 }

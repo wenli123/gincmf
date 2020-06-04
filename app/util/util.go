@@ -2,16 +2,19 @@ package util
 
 import (
 	"encoding/json"
-	"fmt"
 	"gincmf/app/model"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	cmf "github.com/gincmf/cmf/bootstrap"
+	"log"
+	"os"
+	"strings"
+	"time"
 )
 
 //获取当前登录管理员id
-func CurrentAdminId(c *gin.Context) string{
-	userId,_ := c.Get("user_id")
+func CurrentAdminId(c *gin.Context) string {
+	userId, _ := c.Get("user_id")
 	return userId.(string)
 }
 
@@ -22,10 +25,10 @@ func CurrentUser(c *gin.Context) *model.User {
 	currentUser := session.Get("current_user")
 	//根据userId获取当前用户信息，不存在写入session
 	if currentUser == nil {
-		userId,_ := c.Get("user_id")
-		result := cmf.Db.First(u,"user_login = ?", userId).RecordNotFound()
+		userId, _ := c.Get("user_id")
+		result := cmf.Db.First(u, "user_login = ?", userId).RecordNotFound()
 		if !result {
-			session.Set("current_user",u)
+			session.Set("current_user", u)
 		}
 		currentUser = u
 	}
@@ -33,7 +36,7 @@ func CurrentUser(c *gin.Context) *model.User {
 }
 
 //获取网站上传配置信息
-func UploadSetting(c *gin.Context) *model.UploadSetting{
+func UploadSetting(c *gin.Context) *model.UploadSetting {
 	session := sessions.Default(c)
 	uploadSettingStr := session.Get("uploadSetting")
 	option := &model.Option{}
@@ -43,14 +46,36 @@ func UploadSetting(c *gin.Context) *model.UploadSetting{
 		if !uploadResult.RecordNotFound() {
 			uploadSettingStr = option.OptionValue
 			//存入session
-			session.Set("uploadSetting",uploadSettingStr)
+			session.Set("uploadSetting", uploadSettingStr)
 		}
 	}
 
 	//读取的数据为json格式，需要进行解码
 	json.Unmarshal([]byte(uploadSettingStr.(string)), uploadSetting)
-
-	fmt.Println("uploadSetting",uploadSetting)
-
 	return uploadSetting
+}
+
+//添加用户操作日志
+func SetLog(c *gin.Context, module string, controller string, action string, message string) {
+	currentUser := CurrentUser(c)
+	cmf.Db.Create(&model.Log{
+		ModuleName: module,
+		ControllerName: controller,
+		ActionName: action,
+		Url: c.Request.URL.String(),
+		RequestIp: c.ClientIP(),
+		UserId: currentUser.Id,
+		UserNickname: currentUser.UserNickname,
+		Message: message,
+		CreateTime: time.Now().Unix(),
+	})
+}
+
+
+func CurrentPath() string {
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return strings.Replace(dir, "\\", "/", -1)
 }

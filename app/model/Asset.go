@@ -2,14 +2,14 @@ package model
 
 type Asset struct {
 	Id         int    `json:"id"`
-	UserId     int    `json:"user_id";gorm:"type:bigint(20);not null"`
-	FileSize   int    `json:"file_size";gorm:"type:bigint(20);not null"`
-	CreateTime int    `json:"create_time";gorm:"type:int(10);default:0"`
-	Status     int    `json:"status";gorm:"type:tinyint(3);default:1"`
-	FileKey    string `json:"file_key";gorm:"type:varchar(64);not null`
-	FileName   string `json:"file_name";gorm:"type:varchar(100);not null`
-	FilePath   string `json:"file_path";gorm:"type:varchar(100);not null`
-	Suffix     string `json:"suffix";gorm:"type:varchar(10);not null`
-	AssetType  int    `json:"asset_type";gorm:"column:type;type:tinyint(3);not null"`
-	more       string `json:"more";gorm:"type:text`
+	UserId     int    `gorm:"type:bigint(20);comment:'所属用户id';not null"`
+	FileSize   int64    `gorm:"type:bigint(20);comment:'文件大小';not null"`
+	CreateTime int64    `gorm:"type:int(10);comment:'上传时间';default:0"`
+	Status     int    `gorm:"type:tinyint(3);comment:'文件状态';default:1"`
+	FileKey    string `gorm:"type:varchar(64);comment:'文件惟一码';not null"`
+	FileName   string `gorm:"type:varchar(100);comment:'文件名';not null"`
+	FilePath   string `gorm:"type:varchar(100);comment:'文件路径';not null"`
+	Suffix     string `gorm:"type:varchar(10);comment:'文件后缀';not null"`
+	AssetType  int    `gorm:"column:type;type:tinyint(3);comment:'资源类型';not null"`
+	More       string `gorm:"type:text;comment:'更多配置'"`
 }

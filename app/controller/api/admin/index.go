@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"gincmf/app/util"
 	"github.com/gin-gonic/gin"
 	"github.com/gincmf/cmf/controller"
 )
@@ -10,6 +11,8 @@ type IndexController struct {
 }
 
 func (s *IndexController) Get(c *gin.Context) {
+
+	util.SetLog(c,"admin","index","get","查看了首页列表！")
 	s.rc.Success(c, "操作成功Get", nil)
 }
 

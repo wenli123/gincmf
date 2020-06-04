@@ -2,9 +2,9 @@ package model
 
 type Slide struct {
 	Id       int    `json:"id"`
-	Status   string `json:"status";gorm:"type:tinyint(3);default:0"`
-	Name     string `json:"name";gorm:"type:varchar(50);not null"`
-	Remark   string `json:"remark";gorm:"type:varchar(255);not null"`
+	Status   string `gorm:"type:tinyint(3);default:0" json:"status"`
+	Name     string `gorm:"type:varchar(50);not null" json:"name"`
+	Remark   string `gorm:"type:varchar(255);not null" json:"remark"`
 	DeleteAt int    `json:"delete_at"`
 }
 

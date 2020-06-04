@@ -5,11 +5,10 @@ import (
 	cmf "github.com/gincmf/cmf/bootstrap"
 )
 
-type Asset struct {
+type Log struct {
 	Migrate
 }
 
-func (_ *Asset) AutoMigrate() {
-	cmf.Db.AutoMigrate(&model.Asset{})
+func (_ *Log) AutoMigrate() {
+	cmf.Db.AutoMigrate(&model.Log{})
 }
-

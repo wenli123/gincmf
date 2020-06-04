@@ -59,7 +59,6 @@ func (rest *SettingsController) Store(c *gin.Context) {
 	fmt.Println("siteInfoValue",string(siteInfoValue))
 
 	cmf.Db.Model(&model.Option{}).Where("option_name = ?","site_info").Update("option_value", string(siteInfoValue))
-
 	rest.rc.Success(c, "修改成功",siteInfo)
 }
 

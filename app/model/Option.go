@@ -2,9 +2,9 @@ package model
 
 type Option struct {
 	Id          int    `json:"id"`
-	AutoLoad    int    `json:"autoload";gorm:"type:tinyint(3);default:1;not null"`
-	OptionName  string `json:"option_name";gorm:"type:varchar(64);not null"`
-	OptionValue string `json:"option_value";gorm:"type:text"`
+	AutoLoad    int    `gorm:"type:tinyint(3);default:1;not null" json:"autoload"`
+	OptionName  string `gorm:"type:varchar(64);not null" json:"option_name"`
+	OptionValue string `gorm:"type:text" json:"option_value"`
 }
 
 //定义site_info类型
@@ -36,6 +36,6 @@ type FileTypes struct {
 }
 
 type TypeValues struct {
-	UploadMaxFileSize int `json:"upload_max_file_size"`
+	UploadMaxFileSize int    `json:"upload_max_file_size"`
 	Extensions        string `json:"extensions"`
 }

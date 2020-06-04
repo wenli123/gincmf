@@ -6,9 +6,6 @@ type Migrate interface {
 	AutoMigrate()
 }
 
-type MigrateStruct struct {
-}
-
 func AutoMigrate() {
 	_, err := os.Stat("../conf/install.lock")
 	if err != nil {
@@ -16,6 +13,7 @@ func AutoMigrate() {
 		new(Slide).AutoMigrate()
 		new(User).AutoMigrate()
 		new(Asset).AutoMigrate()
+		new(Log).AutoMigrate()
 	}
 
 }

@@ -13,14 +13,14 @@ import (
 func ApiListenRouter() {
 	cmf.Rest("/", new(admin.IndexController))
 
-	cmf.Get("/api/currentUser",middleware.ValidationBearerToken,middleware.ValidationAdmin, func(c *gin.Context) {
+	cmf.Get("/api/currentUser", middleware.ValidationBearerToken, middleware.ValidationAdmin, func(c *gin.Context) {
 		var currentUser = util.CurrentUser(c)
-		controller.RestController{}.Success(c,"获取成功",currentUser)
-	} )
+		controller.RestController{}.Success(c, "获取成功", currentUser)
+	})
 
-	cmf.Rest("/settings", new(admin.SettingsController))
-	cmf.Rest("/assets", new(admin.AssetController))
-	cmf.Rest("/upload", new(admin.UploadController))
-	cmf.Rest("/slide", new(admin.SlideController))
-	cmf.Rest("/slide_item", new(admin.SlideItemController))
+	cmf.Rest("/settings", new(admin.SettingsController), middleware.ValidationBearerToken, middleware.ValidationAdmin)
+	cmf.Rest("/assets", new(admin.AssetController), middleware.ValidationBearerToken, middleware.ValidationAdmin)
+	cmf.Rest("/upload", new(admin.UploadController), middleware.ValidationBearerToken, middleware.ValidationAdmin)
+	cmf.Rest("/slide", new(admin.SlideController), middleware.ValidationBearerToken, middleware.ValidationAdmin)
+	cmf.Rest("/slide_item", new(admin.SlideItemController), middleware.ValidationBearerToken, middleware.ValidationAdmin)
 }

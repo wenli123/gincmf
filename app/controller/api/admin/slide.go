@@ -52,7 +52,7 @@ func (rest *SlideController) Get(c *gin.Context) {
 	notFount := cmf.Db.Where(query, queryArgs...).Limit(intPageSize).Offset((intCurrent - 1) * intPageSize).Find(&slides).RecordNotFound()
 
 	if notFount {
-		rest.rc.Error(c,"该内容不存在！",nil)
+		rest.rc.Error(c,"该页码内容不存在！",nil)
 	}
 
 	paginationData := &model.Paginate{Data: &slides, Current: current, PageSize: pageSize, Total: total}

@@ -37,8 +37,42 @@ var context *gin.Context
 var FilesData []string
 
 func (rest *AssetController) Get(c *gin.Context) {
-	uploadSetting := util.UploadSetting(c)
-	rest.rc.Success(c, "获取成功！", uploadSetting)
+
+	var assets []model.Asset
+
+	query := "status = ?"
+	queryArgs := []interface{}{"1"}
+
+	paramType := c.DefaultPostForm("type","0")
+
+	query += " AND type = ?"
+	queryArgs = append(queryArgs,paramType)
+
+
+	current := c.DefaultQuery("current","1")
+	pageSize := c.DefaultQuery("pageSize","10")
+
+	intCurrent ,_ := strconv.Atoi(current)
+	intPageSize,_ := strconv.Atoi(pageSize)
+
+	if intCurrent <= 0 {
+		rest.rc.Error(c,"当前页码需大于0！",nil)
+	}
+
+	if intPageSize <= 0 {
+		rest.rc.Error(c,"每页数需大于0！",nil)
+	}
+
+	total := 0
+	cmf.Db.Limit(pageSize).Where(query, queryArgs...).Find(&assets).Count(&total)
+	notFount := cmf.Db.Limit(intPageSize).Where(query, queryArgs...).Offset((intCurrent - 1) * intPageSize).Order("id desc").Find(&assets).RecordNotFound()
+
+	if notFount {
+		rest.rc.Error(c,"该页码内容不存在！",assets)
+	}
+
+	paginationData := &model.Paginate{Data: &assets, Current: current, PageSize: pageSize, Total: total}
+	rest.rc.Success(c, "轮播图列表获取成功！", paginationData)
 }
 
 func (rest *AssetController) Show(c *gin.Context) {
@@ -71,15 +105,22 @@ func (rest *AssetController) Store(c *gin.Context) {
 
 	FilesData = FilesData[0:0]
 
+	errCount := 0
+
 	for _, fileItem := range files{
 		err := handleUpload(fileItem,fileType)
 		if err != nil {
-			rest.rc.Error(c, err.Error(),nil)
-			return
+			errCount++
 		}
 	}
 
-	rest.rc.Success(c, "上传成功",FilesData)
+	msg := "上传成功！"
+
+	if errCount > 0 {
+		msg = msg + "其中忽略" + strconv.Itoa(errCount) + "条！"
+	}
+
+	rest.rc.Success(c, msg,FilesData)
 }
 
 func (rest *AssetController) Delete(c *gin.Context) {
@@ -116,6 +157,7 @@ func handleUpload(file *multipart.FileHeader,fileType string)  error{
 		case "0":
 			if !strings.Contains(uploadSetting.Image.Extensions,suffix) {
 				return errors.New("【"+ suffix + "】不是合法的图片后缀！")
+				fmt.Println("0000",suffix)
 			}
 		case "1":
 			if !strings.Contains(uploadSetting.Audio.Extensions,suffix) {
@@ -130,7 +172,6 @@ func handleUpload(file *multipart.FileHeader,fileType string)  error{
 				return errors.New("【"+ suffix + "】不是合法的附件后缀！")
 			}
 	}
-
 
 	path := "public/uploads"
 	t := time.Now()

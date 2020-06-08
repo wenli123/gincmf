@@ -23,34 +23,42 @@ type SlideItemController struct {
 
 func (rest *SlideItemController) Get(c *gin.Context) {
 	var slideItem []model.SlideItem
+	slideId := c.Query("slide_id")
 
-	query := "status = ?"
-	queryArgs := []interface{}{"1`"}
-	name := c.Query("name")
-	desc := c.Query("description")
+	if slideId == "" {
+		rest.rc.Error(c, "轮播图id不能为空！", nil)
+		return
+	}
 
-	if name != "" {
+	query := "slide_id = ? AND status = ?"
+	queryArgs := []interface{}{slideId, "1"}
+	title := c.Query("title")
+	desc := c.Query("desc")
+
+	if title != "" {
 		query += " AND name like ?"
-		queryArgs = append(queryArgs,"%"+name+"%")
+		queryArgs = append(queryArgs, "%"+title+"%")
 	}
 
 	if desc != "" {
 		query += " AND description like ?"
-		queryArgs = append(queryArgs,"%"+desc+"%")
+		queryArgs = append(queryArgs, "%"+desc+"%")
 	}
 
-	current := c.DefaultQuery("current","1")
-	pageSize := c.DefaultQuery("pageSize","10")
+	current := c.DefaultQuery("current", "1")
+	pageSize := c.DefaultQuery("pageSize", "10")
 
-	intCurrent ,_ := strconv.Atoi(current)
-	intPageSize,_ := strconv.Atoi(pageSize)
+	intCurrent, _ := strconv.Atoi(current)
+	intPageSize, _ := strconv.Atoi(pageSize)
 
 	if intCurrent <= 0 {
-		rest.rc.Error(c,"当前页码需大于0！",nil)
+		rest.rc.Error(c, "当前页码需大于0！", nil)
+		return
 	}
 
 	if intPageSize <= 0 {
-		rest.rc.Error(c,"每页数需大于0！",nil)
+		rest.rc.Error(c, "每页数需大于0！", nil)
+		return
 	}
 
 	total := 0
@@ -58,7 +66,8 @@ func (rest *SlideItemController) Get(c *gin.Context) {
 	notFount := cmf.Db.Where(query, queryArgs...).Limit(intPageSize).Offset((intCurrent - 1) * intPageSize).Find(&slideItem).RecordNotFound()
 
 	if notFount {
-		rest.rc.Error(c,"该内容不存在！",nil)
+		rest.rc.Error(c, "该内容不存在！", nil)
+		return
 	}
 
 	paginationData := &model.Paginate{Data: &slideItem, Current: current, PageSize: pageSize, Total: total}
@@ -74,9 +83,9 @@ func (rest *SlideItemController) Show(c *gin.Context) {
 		return
 	}
 	slide := model.Slide{}
-	notFount := cmf.Db.Where("delete_at = ?", "0").First(&slide,rewrite.Id).RecordNotFound()
+	notFount := cmf.Db.Where("delete_at = ?", "0").First(&slide, rewrite.Id).RecordNotFound()
 	if notFount {
-		rest.rc.Error(c,"该内容不存在！",nil)
+		rest.rc.Error(c, "该内容不存在！", nil)
 		return
 	}
 	rest.rc.Success(c, "获取轮播图成功！", slide)
@@ -84,26 +93,56 @@ func (rest *SlideItemController) Show(c *gin.Context) {
 
 //Store	新增顶级轮播提
 func (rest *SlideItemController) Store(c *gin.Context) {
-	name := c.PostForm("name")
-	if name == "" {
-		rest.rc.Error(c,"幻灯片名称不能为空！",nil)
+
+	// 接受slide_id
+	slideId := c.PostForm("slide_id")
+	if slideId == "" {
+		rest.rc.Error(c, "该轮播项不存在！", nil)
 		return
 	}
-	remark := c.PostForm("remark")
-	status := c.DefaultPostForm("status","1")
+	slideIdInt, _ := strconv.Atoi(slideId)
 
-	slide := &model.Slide{Name: name,Remark: remark,Status: status}
+	title := c.PostForm("title")
+	if title == "" {
+		rest.rc.Error(c, "标题不能为空！", nil)
+		return
+	}
 
-	notFount := cmf.Db.Where("name = ? AND delete_at = ?",name,"0").First(&slide).RecordNotFound()
+	aTarget := c.PostForm("target")
+	url := c.PostForm("url")
+	desc := c.PostForm("desc")
+	content := c.PostForm("content")
+	image := c.PostForm("image")
+	listOrder := c.PostForm("list_order")
+	listOrderFloat, _ := strconv.ParseFloat(listOrder, 64)
+
+	slide := &model.SlideItem{
+		SlideId:     slideIdInt,
+		Title:       title,
+		Target:      aTarget,
+		Url:         url,
+		Description: desc,
+		Content:     content,
+		Image:       image,
+		ListOrder:   listOrderFloat,
+	}
+
+	slideData := model.SlideItem{}
+	notFount := cmf.Db.Where("title = ? ", "0").First(&slideData).RecordNotFound()
 	if !notFount {
-		rest.rc.Error(c,"该内容已存在！",nil)
-		return
+		if slideData.Status == 0 {
+			cmf.Db.Model(&model.SlideItem{}).Where("id = ? ", slideData.Id).Update(slide)
+			rest.rc.Success(c, "添加轮播图成功！", nil)
+			return
+		} else {
+			rest.rc.Error(c, "该轮播图已存在！", nil)
+			return
+		}
 	}
+
 	cmf.Db.Create(slide)
 	result := cmf.Db.NewRecord(slide)
-
-	fmt.Println("result：",result)
-
+	fmt.Println("result：", result)
 	if result {
 		rest.rc.Error(c, "添加轮播图失败！", nil)
 		return
@@ -127,12 +166,12 @@ func (rest *SlideItemController) Edit(c *gin.Context) {
 
 	name := c.PostForm("name")
 	if name == "" {
-		rest.rc.Error(c,"幻灯片名称不能为空！",nil)
+		rest.rc.Error(c, "幻灯片名称不能为空！", nil)
 		return
 	}
 
 	remark := c.PostForm("remark")
-	status := c.DefaultPostForm("status","1")
+	status := c.DefaultPostForm("status", "1")
 
 	slide.Id = rewrite.Id
 	slide.Name = name
@@ -147,8 +186,6 @@ func (rest *SlideItemController) Edit(c *gin.Context) {
 	rest.rc.Success(c, "修改轮播图成功！", slide)
 }
 
-
-
 func (rest *SlideItemController) Delete(c *gin.Context) {
 
 	var rewrite struct {
@@ -162,9 +199,9 @@ func (rest *SlideItemController) Delete(c *gin.Context) {
 
 	slide := model.Slide{}
 
-	notFount := cmf.Db.First(&slide,rewrite.Id).RecordNotFound()
+	notFount := cmf.Db.First(&slide, rewrite.Id).RecordNotFound()
 	if notFount {
-		rest.rc.Error(c,"该内容不存在！",nil)
+		rest.rc.Error(c, "该内容不存在！", nil)
 		return
 	}
 

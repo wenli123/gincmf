@@ -43,24 +43,23 @@ func (rest *AssetController) Get(c *gin.Context) {
 	query := "status = ?"
 	queryArgs := []interface{}{"1"}
 
-	paramType := c.DefaultPostForm("type","0")
+	paramType := c.DefaultPostForm("type", "0")
 
 	query += " AND type = ?"
-	queryArgs = append(queryArgs,paramType)
+	queryArgs = append(queryArgs, paramType)
 
+	current := c.DefaultQuery("current", "1")
+	pageSize := c.DefaultQuery("pageSize", "10")
 
-	current := c.DefaultQuery("current","1")
-	pageSize := c.DefaultQuery("pageSize","10")
-
-	intCurrent ,_ := strconv.Atoi(current)
-	intPageSize,_ := strconv.Atoi(pageSize)
+	intCurrent, _ := strconv.Atoi(current)
+	intPageSize, _ := strconv.Atoi(pageSize)
 
 	if intCurrent <= 0 {
-		rest.rc.Error(c,"当前页码需大于0！",nil)
+		rest.rc.Error(c, "当前页码需大于0！", nil)
 	}
 
 	if intPageSize <= 0 {
-		rest.rc.Error(c,"每页数需大于0！",nil)
+		rest.rc.Error(c, "每页数需大于0！", nil)
 	}
 
 	total := 0
@@ -68,7 +67,7 @@ func (rest *AssetController) Get(c *gin.Context) {
 	notFount := cmf.Db.Limit(intPageSize).Where(query, queryArgs...).Offset((intCurrent - 1) * intPageSize).Order("id desc").Find(&assets).RecordNotFound()
 
 	if notFount {
-		rest.rc.Error(c,"该页码内容不存在！",assets)
+		rest.rc.Error(c, "该页码内容不存在！", assets)
 	}
 
 	paginationData := &model.Paginate{Data: &assets, Current: current, PageSize: pageSize, Total: total}
@@ -95,32 +94,26 @@ func (rest *AssetController) Store(c *gin.Context) {
 	form, _ := c.MultipartForm()
 	files := form.File["file[]"]
 
-	fileType := c.DefaultPostForm("type","0")
+	fileType := c.DefaultPostForm("type", "0")
 
 	if len(files) <= 0 {
-		rest.rc.Error(c, "图片不能为空！",nil)
+		rest.rc.Error(c, "图片不能为空！", nil)
 		return
 	}
 	context = c
 
 	FilesData = FilesData[0:0]
 
-	errCount := 0
-
-	for _, fileItem := range files{
-		err := handleUpload(fileItem,fileType)
+	for _, fileItem := range files {
+		err := handleUpload(fileItem, fileType)
 		if err != nil {
-			errCount++
+			rest.rc.Error(c, err.Error(), nil)
+			return
 		}
+
 	}
 
-	msg := "上传成功！"
-
-	if errCount > 0 {
-		msg = msg + "其中忽略" + strconv.Itoa(errCount) + "条！"
-	}
-
-	rest.rc.Success(c, msg,FilesData)
+	rest.rc.Success(c, "上传成功", FilesData)
 }
 
 func (rest *AssetController) Delete(c *gin.Context) {
@@ -129,12 +122,12 @@ func (rest *AssetController) Delete(c *gin.Context) {
 
 // 根据文件处理上传逻辑
 // 1.判断上传类型，验证后缀合理性 type [0 => "图片" 1 => "视频" 2 => "文件"]
-func handleUpload(file *multipart.FileHeader,fileType string)  error{
-	tempFile,tempErr := file.Open()
+func handleUpload(file *multipart.FileHeader, fileType string) error {
+	tempFile, tempErr := file.Open()
 	defer tempFile.Close()
-	
+
 	if tempErr != nil {
-		fmt.Println("tempErr",tempErr)
+		fmt.Println("tempErr", tempErr)
 	}
 
 	var fileSize int64 = 0
@@ -143,42 +136,54 @@ func handleUpload(file *multipart.FileHeader,fileType string)  error{
 		fileSize = sizeInterface.Size()
 	}
 
-	fmt.Println("fileSize",fileSize)
+	fmt.Println("fileSize", fileSize)
 
 	suffixArr := strings.Split(file.Filename, ".")
 
 	suffix := suffixArr[len(suffixArr)-1]
 
 	fmt.Println("suffix", suffix)
-	
+
 	//获取后缀列表
 	uploadSetting := util.UploadSetting(context)
+
+	fmt.Println("fileType",fileType)
+
 	switch fileType {
-		case "0":
-			if !strings.Contains(uploadSetting.Image.Extensions,suffix) {
-				return errors.New("【"+ suffix + "】不是合法的图片后缀！")
-				fmt.Println("0000",suffix)
-			}
-		case "1":
-			if !strings.Contains(uploadSetting.Audio.Extensions,suffix) {
-				return errors.New("【"+ suffix + "】不是合法的音频后缀！")
-			}
-		case "2":
-			if !strings.Contains(uploadSetting.Video.Extensions,suffix) {
-				return errors.New("【"+ suffix + "】不是合法的视频后缀！")
-			}
-		case "3":
-			if !strings.Contains(uploadSetting.File.Extensions,suffix) {
-				return errors.New("【"+ suffix + "】不是合法的附件后缀！")
-			}
+	case "0":
+		iExtensionArr := strings.Split(uploadSetting.Image.Extensions, ",")
+		iResult := InArray(suffix, iExtensionArr)
+		fmt.Println("iResult", iResult)
+		if !iResult {
+			return errors.New("【" + suffix + "】不是合法的图片后缀！")
+		}
+	case "1":
+		aExtensionArr := strings.Split(uploadSetting.Audio.Extensions, ",")
+		if !InArray(suffix, aExtensionArr) {
+			return errors.New("【" + suffix + "】不是合法的音频后缀！")
+		}
+	case "2":
+		vExtensionArr := strings.Split(uploadSetting.Video.Extensions, ",")
+		if !InArray(suffix, vExtensionArr) {
+			return errors.New("【" + suffix + "】不是合法的音频后缀！")
+		}
+	case "3":
+		fExtensionArr := strings.Split(uploadSetting.File.Extensions, ",")
+		if !InArray(suffix, fExtensionArr) {
+			return errors.New("【" + suffix + "】不是合法的附件后缀！")
+		}
+
+	default:
+		return errors.New("非法访问")
+		context.Abort()
 	}
 
 	path := "public/uploads"
 	t := time.Now()
-	timeArr := []int{t.Year(), int(t.Month()), t.Day() }
+	timeArr := []int{t.Year(), int(t.Month()), t.Day()}
 
 	var timeDir string
-	for key,timeInt := range timeArr{
+	for key, timeInt := range timeArr {
 
 		current := strconv.Itoa(timeInt)
 		if key > 0 {
@@ -186,7 +191,7 @@ func handleUpload(file *multipart.FileHeader,fileType string)  error{
 				current = "0" + current
 			}
 		}
-		tempStr  :=  "/" + current
+		tempStr := "/" + current
 		timeDir += tempStr
 	}
 
@@ -195,14 +200,14 @@ func handleUpload(file *multipart.FileHeader,fileType string)  error{
 	fileUuid, err := uuid.NewV4()
 
 	fileName := cmfUtil.GetMd5(fileUuid.String() + suffixArr[0])
-	fileNameSuffix := fileName + "." +suffix
-	FilesData = append(FilesData,fileNameSuffix)
+	fileNameSuffix := fileName + "." + suffix
+	FilesData = append(FilesData, fileNameSuffix)
 
 	filePath := path + fileNameSuffix
 
 	_, err = os.Stat(path)
 	if err != nil {
-		os.MkdirAll( path, os.ModePerm)
+		os.MkdirAll(path, os.ModePerm)
 	}
 
 	buf := bytes.NewBuffer(nil)
@@ -213,7 +218,7 @@ func handleUpload(file *multipart.FileHeader,fileType string)  error{
 	md5h := md5.New()
 	md5h.Write(buf.Bytes())
 
-	fileMd5 :=  hex.EncodeToString(md5h.Sum([]byte("")))
+	fileMd5 := hex.EncodeToString(md5h.Sum([]byte("")))
 	log.Println("md5", fileMd5)
 
 	sha1h := sha1.New()
@@ -225,24 +230,34 @@ func handleUpload(file *multipart.FileHeader,fileType string)  error{
 
 	context.SaveUploadedFile(file, filePath)
 
-	userId,_ := context.Get("user_id")
+	userId, _ := context.Get("user_id")
 	if userId == nil {
 		userId = "0"
 	}
-	userIdInt , _ := strconv.Atoi(userId.(string))
+	userIdInt, _ := strconv.Atoi(userId.(string))
 
-	fileTypeInt,_ := strconv.Atoi(fileType)
+	fileTypeInt, _ := strconv.Atoi(fileType)
 	//保存到数据库
 	cmf.Db.Create(&model.Asset{
-		UserId:userIdInt,
-		FileSize:fileSize,
-		CreateTime:time.Now().Unix(),
-		FileKey:fileUuid.String(),
-		FileName:fileNameSuffix,
-		FilePath:filePath,
-		Suffix:suffix,
-		AssetType:fileTypeInt,
+		UserId:     userIdInt,
+		FileSize:   fileSize,
+		CreateTime: time.Now().Unix(),
+		FileKey:    fileUuid.String(),
+		FileName:   fileNameSuffix,
+		FilePath:   filePath,
+		Suffix:     suffix,
+		AssetType:  fileTypeInt,
 	})
 
 	return nil
+}
+
+func InArray(search interface{}, arr []string) bool {
+	for _, item := range arr {
+		fmt.Println(search, item)
+		if search == item {
+			return true
+		}
+	}
+	return false
 }
